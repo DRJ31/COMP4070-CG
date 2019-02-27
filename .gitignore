@@ -1,3 +1,9 @@
+# IDE folders
 .vscode/
 .idea/
+
+# C files
 *.o
+
+# macOS
+.DS_Store
