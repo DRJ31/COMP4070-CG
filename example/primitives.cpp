@@ -4,8 +4,10 @@
  *  redbook Figure 2-7 defines the interpretation of vertices
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include "glut.h"
+
+using namespace std;
 
 // enumerate all the opengl primitives 
 int prims[] = {
@@ -41,7 +43,7 @@ char *sprims[] = {
     "quads",
     "quad strip"
 };
-const NPRIMS = sizeof(prims)/sizeof(int);
+const int NPRIMS = sizeof(prims)/sizeof(int);
 int prim = 0;
 
 void setup()

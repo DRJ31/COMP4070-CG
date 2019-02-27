@@ -5,8 +5,10 @@
  *
  */
 
-#include <stdio.h>
+#include <cstdio>
 #include "glut.h"
+
+using namespace std;
 
 void
 setup(void)

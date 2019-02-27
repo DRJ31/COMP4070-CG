@@ -1,12 +1,14 @@
 /*
- *  reshape2.c
- *
- *  keep aspect ratio the same, size varies
- *
- */
+ *  reshape3.c
+ *  Keep size unchanged.
+  */
 
-#include <stdio.h>
+#include <cstdio>
 #include "glut.h"
+
+# define SIZE 512
+
+using namespace std;
 
 void setup(void)
 {
@@ -29,34 +31,23 @@ void reshape(int w, int h)
 {
     printf("Reshape %d %d\n", w, h );
 
-    /* keep the aspect ratio fixed */
+    /* keep the aspect ratio and size fixed */
 
     glViewport(0,0,w,h);
 
-    // coordinate systems are implemented using matrices
-    // we will devote a future lecture to how to do this
-
-    // initialize the current transformation matrix
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
 
-    // gluOrtho2D sets the coordinates at the edges of the window
-    if( w > h ) {
-        float aspect = (float)w / (float)h;
-	gluOrtho2D(-aspect, aspect, -1.0, 1.0);
-    }
-    else {
-        float aspect = (float)h / (float)w;
-	gluOrtho2D(-1.0, 1.0, -aspect, aspect);
-    }
+    // size defined relative to original window size
+    float size = SIZE;
+    gluOrtho2D(-w/size,w/size,-h/size,h/size);
 }
 
 int main(int argc, char** argv)
 {
     glutInit(&argc,argv); 
-
     glutInitDisplayMode (GLUT_SINGLE | GLUT_RGB);  
-    glutInitWindowSize(512,512);
+    glutInitWindowSize(SIZE,SIZE);
     glutInitWindowPosition(50,50);
     glutCreateWindow("reshape"); 
 

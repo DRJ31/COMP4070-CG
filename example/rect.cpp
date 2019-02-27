@@ -4,10 +4,12 @@
  *  This program draws a square
  */
 
-#include <stdio.h>
+#include <cstdio>
 
 /* glut.h includes gl.h and glu.h */
 #include "glut.h"
+
+using namespace std;
 
 void
 setup(void)

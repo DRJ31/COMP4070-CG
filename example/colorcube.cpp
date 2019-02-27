@@ -17,10 +17,12 @@
 // ----------------------------------------------------------
 //#include <stdio.h>
 //#include <stdarg.h>
-#include <math.h>
+#include <cmath>
 //#define GL_GLEXT_PROTOTYPES
 
 #include <GL/glut.h>
+
+using namespace std;
 
 
 // ----------------------------------------------------------
@@ -34,7 +36,7 @@ void specialKeys();
 // ----------------------------------------------------------
 double rotate_y = 0;
 double rotate_x = 0;
-#define M_PI 3.14159265357
+#define _USE_MATH_DEFINES
 
 GLfloat vertices[][3] = { { -0.5, -0.5, -0.5 }, { 0.5, -0.5, -0.5 },
 { 0.5, 0.5, -0.5 }, { -0.5, 0.5, -0.5 }, { -0.5, -0.5, 0.5 },
