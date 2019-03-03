@@ -3,7 +3,7 @@ CFLAGS = -Wall
 LIBS = $(shell pkg-config --libs gl freeglut)
 SOURCES := $(wildcard *.cpp)
 SOURCES := $(filter-out main.cpp, $(SOURCES))
-OBJS = $(patsubst %.cpp, %.o, $(SOURCES))
+OBJS = $(wildcard *.o)
 TARGETS = $(patsubst %.cpp, %, $(SOURCES))
 RM = rm -f
 
@@ -18,4 +18,4 @@ $(TARGETS): %: %.o main.o
 .PHONY: clean
 
 clean:
-	$(RM) $(TARGETS) *.o
+	$(RM) $(TARGETS) $(OBJS)
