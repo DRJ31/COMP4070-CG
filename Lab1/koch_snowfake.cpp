@@ -8,10 +8,44 @@ void create_window() {
 }
 
 
+void koch_snowfake(float x, float y, double angle, float length, int n) {
+    if (n == 0) {
+        float x1 = x + length * cos(angle);
+        float y1 = y + length * sin(angle);
+        glBegin(GL_LINES);
+        glVertex2f(x, y);
+        glVertex2f(x1, y1);
+        glEnd();
+    }
+    else {
+        length /= 3;
+        n--;
+        koch_snowfake(x, y, angle, length, n);
+
+        x += length * cos(angle);
+        y += length * sin(angle);
+        angle -= M_PI / 3;
+        koch_snowfake(x, y, angle, length, n);
+
+        x += length * cos(angle);
+        y += length * sin(angle);
+        angle += M_PI * 2 / 3;
+        koch_snowfake(x, y, angle, length, n);
+
+        x += length * cos(angle);
+        y += length * sin(angle);
+        angle -= M_PI / 3;
+        koch_snowfake(x, y, angle, length, n);
+
+    }
+}
+
+
 void draw() {
-    glBegin(GL_LINE_LOOP);
-    glVertex2f(-1.0 * 0.8, -1 / sqrt(3) * 0.8);
-    glVertex2f(1.0 * 0.8, -1 / sqrt(3) * 0.8);
-    glVertex2f(0.0, 2 / sqrt(3) * 0.8);
-    glEnd();
+    int iters = 5;
+    float half_length = 0.8;
+
+    koch_snowfake(-half_length, half_length * (-sqrt(3)) / 3, 0.0, half_length * 2, iters);
+    koch_snowfake(half_length, half_length * (-sqrt(3)) / 3, M_PI * 2 / 3, half_length * 2, iters);
+    koch_snowfake(0, half_length * sqrt(3) / 3 * 2, -M_PI * 2 / 3, half_length * 2, iters);
 }
