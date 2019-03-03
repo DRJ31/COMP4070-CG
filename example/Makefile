@@ -7,8 +7,6 @@ PROGRAMS += reshape1 reshape2 reshape3
 PROGRAMS += single double
 PROGRAMS += primitives concave colorcube
 
-.SUFFIXES: .cpp .h
-
 .cpp.o:
 	$(CXX) -o $@ -c $< $(CFLAGS)
 
