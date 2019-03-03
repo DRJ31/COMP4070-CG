@@ -4,8 +4,9 @@
  *  redbook Figure 2-7 defines the interpretation of vertices
  */
 
-#include <cstdio>
+#include <iostream>
 #include "glut.h"
+#include <string>
 
 using namespace std;
 
@@ -27,7 +28,7 @@ int prims[] = {
     GL_QUAD_STRIP
 
 };
-char *sprims[] = {
+string sprims[] = {
     "points",
 
     "lines",
@@ -84,7 +85,7 @@ void display(void)
 void key(unsigned char k,int x,int y)
 {
     prim = (prim + 1) % NPRIMS;
-    printf("%s\n",sprims[prim]);
+    cout << sprims[prim] << endl;
     glutPostRedisplay();
 }
 
@@ -98,7 +99,7 @@ int main(int argc, char** argv)
     glutCreateWindow("Primitives"); 
 
     prim = 0;
-    printf("%s\n",sprims[prim]);
+    cout << sprims[prim] << endl;
 
     setup();
 
