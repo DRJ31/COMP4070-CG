@@ -20,7 +20,7 @@
 #include <cmath>
 //#define GL_GLEXT_PROTOTYPES
 
-#include <GL/glut.h>
+#include "glut.h"
 
 using namespace std;
 
