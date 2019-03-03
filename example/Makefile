@@ -8,7 +8,7 @@ CFLAGS = -Wall
 PROGRAMS = rect 
 PROGRAMS += reshape1 reshape2 reshape3
 PROGRAMS += single double
-PROGRAMS += primitives concave colorcube
+PROGRAMS += primitives concave colorcube sphere
 
 ifeq ($(shell uname), Darwin)
 	LIBS = $(LIBPATH) $(FRAMEWORK)
