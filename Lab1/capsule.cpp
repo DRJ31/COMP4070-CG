@@ -3,7 +3,12 @@
 using namespace std;
 
 
-void capsule() {
+void create_window() {
+    glutCreateWindow("Capsule");
+}
+
+
+void draw() {
     vector<float *> v;
     vector<float *> cap;
     float radius = 0.15;

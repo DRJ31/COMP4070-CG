@@ -1,18 +1,21 @@
 CXX = g++
 CFLAGS = -Wall
 LIBS = $(shell pkg-config --libs gl freeglut)
-SOURCES = $(wildcard *.cpp)
+SOURCES := $(wildcard *.cpp)
+SOURCES := $(filter-out main.cpp, $(SOURCES))
 OBJS = $(patsubst %.cpp, %.o, $(SOURCES))
-TARGET = lab1
+TARGETS = $(patsubst %.cpp, %, $(SOURCES))
 RM = rm -f
 
-$(TARGET): $(OBJS)
+all: $(TARGETS)
+
+$(TARGETS): %: %.o main.o
 	$(CXX) -o $@ $^ $(CFLAGS) $(LIBS)
 
-.c.o:
-	$(CXX) -o $@ -c $<
+.cpp.o:
+	$(CXX) -o $@ -c $< $(CFLAGS)
 
 .PHONY: clean
 
 clean:
-	$(RM) lab1 *.o
+	$(RM) $(TARGETS) *.o

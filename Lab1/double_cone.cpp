@@ -3,7 +3,12 @@
 using namespace std;
 
 
-void double_cone() {
+void create_window() {
+    glutCreateWindow("Double Cone");
+}
+
+
+void draw() {
     vector<float*> v;
     float radius = 0.6;
     float height = 0.6;

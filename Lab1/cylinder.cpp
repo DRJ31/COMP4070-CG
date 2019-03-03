@@ -3,7 +3,12 @@
 using namespace std;
 
 
-void cylinder() {
+void create_window() {
+    glutCreateWindow("Cylinder");
+}
+
+
+void draw() {
     vector<float *> v;
     float radius = 0.3;
     float height = 1.2;

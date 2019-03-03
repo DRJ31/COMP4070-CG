@@ -18,11 +18,7 @@ void display() {
     glRotatef(rotate_y, 0.0, 1.0, 0.0);
 
     // Main function of drawings
-//    cylinder();
-//    capsule();
-//    sphere();
-//    double_cone();
-    koch_snowfake();
+    draw();
 
     glFlush();
     glutSwapBuffers();
@@ -56,7 +52,7 @@ int main(int argc, char *argv[]) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 
     // Create window
-    glutCreateWindow("Cylinder");
+    create_window();
 
     // Enable Z-buffer
     glEnable(GL_DEPTH_TEST);

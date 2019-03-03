@@ -4,14 +4,8 @@
 #include <GL/glut.h>
 #include <vector>
 
-void double_cone();
+void draw();
 
-void cylinder();
-
-void capsule();
-
-void sphere();
-
-void koch_snowfake();
+void create_window();
 
 #endif //CG_DRAWINGS_H

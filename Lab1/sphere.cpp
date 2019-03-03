@@ -3,7 +3,12 @@
 using namespace std;
 
 
-void sphere() {
+void create_window() {
+    glutCreateWindow("Sphere");
+}
+
+
+void draw() {
     vector<float *> v;
     float radius = 0.6;
     int rings = 20;
