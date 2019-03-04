@@ -44,6 +44,23 @@ void specialKeys(int key, int x, int y) {
 }
 
 
+void reshape(int w, int h) {
+    glViewport(0, 0, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    if (w > h) {
+        float aspect = (float)w / (float)h;
+        // glOrtho(-aspect, aspect, -1.0, 1.0, -10, 10);
+        gluOrtho2D(-aspect, aspect, -1.0, 1.0); 
+    }
+    else {
+        float aspect = (float)h / (float)w;
+        // glOrtho(1.0, 1.0, -aspect, aspect, -10, 10);
+        gluOrtho2D(-1.0, 1.0, -aspect, aspect);
+    }
+}
+
+
 int main(int argc, char *argv[]) {
     // Initialize GLUT
     glutInit(&argc, argv);
@@ -60,6 +77,7 @@ int main(int argc, char *argv[]) {
     // Callback Functions
     glutDisplayFunc(display);
     glutSpecialFunc(specialKeys);
+    glutReshapeFunc(reshape);
 
     // Pass control to GLUT for events
     glutMainLoop();
