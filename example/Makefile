@@ -5,23 +5,27 @@ FRAMEWORK += -framework OpenGL
 RM = rm -f
 CXX = g++
 CFLAGS = -Wall
-PROGRAMS = rect 
-PROGRAMS += reshape1 reshape2 reshape3
-PROGRAMS += single double
-PROGRAMS += primitives concave colorcube sphere
+BIN = ./bin
+OBJ = ./obj
+SRCPATH = ./src
+PROGRAMS = $(patsubst $(SRCPATH)/%.cpp, $(BIN)/%, $(wildcard $(SRCPATH)/*.cpp)) 
+
+$(shell test -d $(BIN) || mkdir -p $(BIN))
+$(shell test -d $(OBJ) || mkdir -p $(OBJ))
 
 ifeq ($(shell uname), Darwin)
 	LIBS = $(LIBPATH) $(FRAMEWORK)
 endif
 
-.cpp.o:
-	$(CXX) -o $@ -c $< $(CFLAGS)
-
 all: $(PROGRAMS)
 
 clean:
 	$(RM) $(PROGRAMS)
-	$(RM) *.o
+	$(RM) $(OBJ)/*.o
 
-$(PROGRAMS): %: %.o
+$(BIN)/%: $(OBJ)/%.o
 	$(CXX) $< -o $@ $(LIBS) $(CFLAGS)
+
+$(OBJ)/%.o: $(SRCPATH)/%.cpp
+	$(CXX) -o $@ -c $< $(CFLAGS)
+
