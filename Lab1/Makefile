@@ -4,24 +4,30 @@ LIBS = $(shell pkg-config --libs gl freeglut)
 LIBPATH += -L"/System/Library/Frameworks/OpenGL.framework/Libraries"
 FRAMEWORK = -framework GLUT
 FRAMEWORK += -framework OpenGL 
-SOURCES = $(filter-out main.cpp, $(wildcard *.cpp))
-TARGETS = $(patsubst %.cpp, %, $(SOURCES))
+BIN = ./bin
+SRCPATH = ./src
+OBJ = ./obj
+SRC = $(filter-out $(SRCPATH)/main.cpp, $(wildcard $(SRCPATH)/*.cpp))
+PROGRAMS = $(patsubst $(SRCPATH)/%.cpp, $(BIN)/%, $(SRC))
 RM = rm -f
+
+$(shell test -d $(BIN) || mkdir -p $(BIN))
+$(shell test -d $(OBJ) || mkdir -p $(OBJ))
 
 ifeq ($(shell uname), Darwin)
 	LIBS = $(LIBPATH) $(FRAMEWORK)
 endif
 
-all: $(TARGETS)
+all: $(PROGRAMS)
 
-$(TARGETS): %: %.o main.o
+$(PROGRAMS): $(BIN)/%: $(OBJ)/%.o $(OBJ)/main.o
 	$(CXX) -o $@ $^ $(CFLAGS) $(LIBS)
 
-.cpp.o:
+$(OBJ)/%.o: $(SRCPATH)/%.cpp
 	$(CXX) -o $@ -c $< $(CFLAGS)
 
 .PHONY: clean
 
 clean:
-	$(RM) $(TARGETS)
-	$(RM) *.o
+	$(RM) $(BIN)/*
+	$(RM) $(OBJ)/*.o
