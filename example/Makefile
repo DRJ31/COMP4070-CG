@@ -20,6 +20,8 @@ ifeq ($(shell uname), Darwin)
 	LIBS = $(LIBPATH) $(FRAMEWORK)
 endif
 
+.PHONY: clean $(TARGETS)
+
 all: $(PROGRAMS)
 
 $(TARGETS): %: $(BIN)/%
@@ -29,8 +31,6 @@ $(BIN)/%: $(OBJ)/%.o
 
 $(OBJ)/%.o: $(SRCPATH)/%.cpp
 	$(CXX) -o $@ -c $< $(CFLAGS)
-
-.PHONY: clean
 
 clean:
 	$(RM) $(PROGRAMS)
