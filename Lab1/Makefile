@@ -1,6 +1,6 @@
 CXX = g++
 CFLAGS = -Wall
-LIBS = $(shell pkg-config --libs gl freeglut)
+LIBS = $(shell pkg-config --libs glu freeglut)
 LIBPATH += -L"/System/Library/Frameworks/OpenGL.framework/Libraries"
 FRAMEWORK = -framework GLUT
 FRAMEWORK += -framework OpenGL 
