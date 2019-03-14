@@ -7,6 +7,7 @@
 #include <GL/glut.h>
 #endif
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 #include <vector>
 
