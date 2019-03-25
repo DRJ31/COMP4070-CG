@@ -18,6 +18,7 @@ $(shell test -e $(BIN)/Makefile || $(CP) Makefile.bin $(BIN)/Makefile)
 
 ifeq ($(shell uname), Darwin)
 	LIBS = $(LIBPATH) $(FRAMEWORK)
+	CFLAGS = -w
 endif
 
 .PHONY: clean $(TARGETS)

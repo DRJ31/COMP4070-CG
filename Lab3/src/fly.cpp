@@ -1,5 +1,11 @@
 #define _USE_MATH_DEFINES
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
+
 #include <vector>
 #include <cmath>
 #include <iostream>
@@ -51,8 +57,8 @@ void koch_snowflake(double x, double y, double angle, double length, int n) {
 }
 
 
-vector<vector<double>> get_points(double x, double y, double length, double angle) {
-    vector<vector<double>> points(3);
+vector< vector<double> > get_points(double x, double y, double length, double angle) {
+    vector< vector<double> > points(3);
     points[0].push_back(x);
     points[0].push_back(y);
     points[1].push_back(x + length * cos(angle));
@@ -66,7 +72,7 @@ vector<vector<double>> get_points(double x, double y, double length, double angl
 void snowflake(double half_length, double init_y) {
     int iters = 5;
     double angle = 0;
-    vector<vector<double>> points = get_points(-half_length, -half_length * sqrt(3) / 3 + init_y, half_length * 2, angle);
+    vector< vector<double> > points = get_points(-half_length, -half_length * sqrt(3) / 3 + init_y, half_length * 2, angle);
 
     koch_snowflake(points[0][0], points[0][1], angle, half_length * 2, iters);
     koch_snowflake(points[1][0], points[1][1], angle + M_PI * 2 / 3, half_length * 2, iters);
