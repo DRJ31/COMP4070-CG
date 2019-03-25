@@ -6,9 +6,8 @@ FRAMEWORK = -framework GLUT
 FRAMEWORK += -framework OpenGL 
 BIN = ./bin
 SRCPATH = ./src
-SRC = $(wildcard $(SRCPATH)/*.cpp)
-PROGRAMS = $(patsubst $(SRCPATH)/%.cpp,$(BIN)/%,$(SRC))
-TARGETS = $(patsubst $(SRCPATH)/%.cpp,%,$(SRC))
+TARGETS = fly robot
+PROGRAMS = $(patsubst %,$(BIN)/%,$(TARGETS))
 RM = rm -f
 CP = cp -f
 
@@ -27,7 +26,7 @@ all: $(PROGRAMS)
 
 $(TARGETS): %: $(BIN)/%
 
-$(PROGRAMS): $(BIN)/%: $(SRCPATH)/%.cpp
+$(BIN)/fly: $(SRCPATH)/fly.cpp
 	$(CXX) -o $@ $< $(CFLAGS) $(LIBS)
 
 clean:
