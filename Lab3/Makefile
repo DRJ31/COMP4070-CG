@@ -29,6 +29,9 @@ $(TARGETS): %: $(BIN)/%
 $(BIN)/fly: $(SRCPATH)/fly.cpp
 	$(CXX) -o $@ $< $(CFLAGS) $(LIBS)
 
+$(BIN)/robot: $(SRCPATH)/robot.cpp $(SRCPATH)/cylinder.cpp $(SRCPATH)/sphere.cpp
+	$(CXX) -o $@ $^ $(CFLAGS) $(LIBS)
+
 clean:
 	$(RM) $(PROGRAMS)
 	$(RM) $(OBJ)/*.o
