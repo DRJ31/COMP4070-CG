@@ -1,4 +1,3 @@
-#include <GL/glut.h>
 #include "drawings.h"
 
 static int shoulder = 0, elbow = 0, status = 0, rotate_x = 0, rotate_y = 0;

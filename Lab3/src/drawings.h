@@ -1,8 +1,14 @@
 #ifndef CG_DRAWINGS_H
 #define CG_DRAWINGS_H
 #define _USE_MATH_DEFINES
-#include <cmath>
+
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
+
+#include <cmath>
 #include <vector>
 #include <cstdio>
 
