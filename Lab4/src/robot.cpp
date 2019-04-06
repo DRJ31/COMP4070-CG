@@ -6,7 +6,7 @@ const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT);
-
+	glViewport(0, 0, 400, 400);
 	glPushMatrix();
 //	glRotatef(rotate_x, 1.0, 0.0, 0.0);
 //	glRotatef(rotate_y, 0.0, 1.0, 0.0);
