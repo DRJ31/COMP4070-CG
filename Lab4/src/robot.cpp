@@ -4,100 +4,107 @@ static int shoulder = 0, elbow = 0, status = 0, rotate_x = 0, rotate_y = 0, spin
 static double y_axis = 0.5;
 const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
 
-void display() {
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glViewport(0, 0, 500, 500);
-	glMatrixMode(GL_PROJECTION);
-	// glLoadIdentity();
-	glOrtho(-1.5, -1.5, -1.5, -1.5, -5, -10);
-	glMatrixMode(GL_MODELVIEW);
+void robot() {
 	glPushMatrix();
-//	glRotatef(rotate_x, 1.0, 0.0, 0.0);
-//	glRotatef(rotate_y, 0.0, 1.0, 0.0);
-	gluLookAt(cos(spin * M_PI / 360 * 2) * 0.5, y_axis, sin(spin * M_PI / 360 * 2) * 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	// glRotatef(rotate_x, 1.0, 0.0, 0.0);
+	// glRotatef(rotate_y, 0.0, 1.0, 0.0);
+	
 	// Draw head
 	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	glTranslatef(0.0, 0.0, 1.5);
-	//glRotatef(90.0, 0.0, 0.0, 1.0);
-	sphere(1.0, GREEN);
+	glTranslatef(0.0, 0.0, 0.27);
+	sphere(0.3, GREEN); // HEAD
 
 	// Draw left wire
 	glPushMatrix();
-	glTranslatef(-0.5, 0.0, 1.0);
+	glTranslatef(-0.15, 0.0, 0.36);
 	glRotatef(135.0, 0.0, 1.0, 0.0);
-	cylinder(0.05, 0.5, GREEN);
+	cylinder(0.015, 0.15, GREEN); // Left wire
 	glPopMatrix();
 
-	// Draw left wire
+	// Draw right wire
 	glPushMatrix();
-	glTranslatef(0.5, 0.0, 1.0);
+	glTranslatef(0.15, 0.0, 0.3);
 	glRotatef(-135.0, 0.0, 1.0, 0.0);
-	cylinder(0.05, 0.5, GREEN);
+	cylinder(0.015, 0.15, GREEN); // Right wire
 	glPopMatrix();
 
 	// Draw body
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.3);
-	cylinder(1.0, 2.0, GREEN);
+	glTranslatef(0.0, 0.0, -0.09);
+	cylinder(0.3, 0.6, GREEN); // Body
 	glPopMatrix();
 	
 	//Draw right hand
 	glPushMatrix();
-	glTranslatef(1.5, 0.0, -0.4);
+	glTranslatef(0.45, 0.0, -0.12);
 	glRotatef(-(GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.9, GREEN);
+	cylinder(0.054, 0.27, GREEN); // Right shoulder
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.9);
+	glTranslatef(0.0, 0.0, -0.27);
 	glRotatef(-(GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.9, GREEN);
+	cylinder(0.054, 0.27, GREEN); // Right elbow
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw left hand
 	glPushMatrix();
-	glTranslatef(-1.5, 0.0, -0.4);
+	glTranslatef(-0.45, 0.0, -0.12);
 	glRotatef((GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.9, GREEN);
+	cylinder(0.054, 0.27, GREEN); // Left shoulder
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.9);
+	glTranslatef(0.0, 0.0, -0.27);
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.9, GREEN);
+	cylinder(0.054, 0.27, GREEN); // Left elbow
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw Left foot
 	glPushMatrix();
-	glTranslatef(-0.5, 0.0, -2.5);
+	glTranslatef(-0.15, 0.0, -0.75);
 	glRotatef(-(GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.6, GREEN);
+	cylinder(0.054, 0.18, GREEN); // Left foot
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.6);
+	glTranslatef(0.0, 0.0, -0.18);
 	glRotatef(-(GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.6, GREEN);
+	cylinder(0.054, 0.18, GREEN); // Left foot
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw right foot
 	glPushMatrix();
-	glTranslatef(0.5, 0.0, -2.5);
+	glTranslatef(0.15, 0.0, -0.75);
 	glRotatef((GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.6, GREEN);
+	cylinder(0.054, 0.18, GREEN); // Right foot
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.6);
+	glTranslatef(0.0, 0.0, -0.18);
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.18, 0.6, GREEN);
+	cylinder(0.054, 0.18, GREEN); // Right foot
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	glPopMatrix();
+}
+
+void display() {
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	// gluPerspective(100.0, (GLfloat)500 / (GLfloat)500, 0.0, 20.0);
+	glFrustum(-1, 1, -1, 1, 0, 20);
+	// glOrtho(-1, 1, -1, 1, 0, 20);
+	glViewport(100, 50, 400, 400);
+	glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+	gluLookAt(cos(spin * M_PI / 360 * 2) * 0.5, y_axis, sin(spin * M_PI / 360 * 2) * 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+	robot();
 	glutSwapBuffers();
 }
 
@@ -162,7 +169,7 @@ void tick(int value) {
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
-	glutInitWindowSize(600, 600);
+	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow(argv[0]);
 	glutDisplayFunc(display);
