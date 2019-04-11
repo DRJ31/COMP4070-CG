@@ -1,7 +1,12 @@
 #include "drawings.h"
 
-static int shoulder = 0, elbow = 0, status = 0, rotate_x = 0, rotate_y = 0, spin = 0;
-static double y_axis = 0.5;
+static int shoulder = 0, elbow = 0, status = 0, rotate_x = 0, rotate_y = 0;
+static GLfloat mat_specular[] = { 1.0,1.0,1.0,1.0 };
+static GLfloat mat_shininess[] = { 50.0 };
+static GLfloat light_position[] = { 1.0,1.0,1.0,0.0 };
+static GLfloat white_light[] = { 1.0,0.0,1.0,1.0 };
+static GLfloat lmodel_ambient[] = { 0.1,0.1,0.1,1.0 };
+static GLint flat_smooth = GL_SMOOTH;
 const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
 
 void robot() {
@@ -10,82 +15,70 @@ void robot() {
 	// glRotatef(rotate_y, 0.0, 1.0, 0.0);
 	
 	// Draw head
-	glRotatef(-90.0, 1.0, 0.0, 0.0);
-	glTranslatef(0.0, 0.0, 0.27);
-	sphere(0.3, GREEN); // HEAD
-
-	// Draw left wire
 	glPushMatrix();
-	glTranslatef(-0.15, 0.0, 0.36);
-	glRotatef(135.0, 0.0, 1.0, 0.0);
-	cylinder(0.015, 0.15, GREEN); // Left wire
-	glPopMatrix();
-
-	// Draw right wire
-	glPushMatrix();
-	glTranslatef(0.15, 0.0, 0.3);
-	glRotatef(-135.0, 0.0, 1.0, 0.0);
-	cylinder(0.015, 0.15, GREEN); // Right wire
+	// glRotatef(-180.0, 1.0, 0.0, 0.0);
+	glTranslatef(0.0, 0.8, 0.0);
+	sphere(0.2, GREEN); // HEAD
 	glPopMatrix();
 
 	// Draw body
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.09);
-	cylinder(0.3, 0.6, GREEN); // Body
+	glTranslatef(0.0, -0.2, 0.0);
+	cylinder(0.3, 0.8, GREEN); // Body
 	glPopMatrix();
 	
 	//Draw right hand
 	glPushMatrix();
-	glTranslatef(0.45, 0.0, -0.12);
+	glTranslatef(0.4, 0.2, 0.0);
 	glRotatef(-(GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.27, GREEN); // Right shoulder
+	cylinder(0.05, 0.4, GREEN); // Right shoulder
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.27);
+	glTranslatef(0.0, -0.4, 0.0);
 	glRotatef(-(GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.27, GREEN); // Right elbow
+	cylinder(0.05, 0.4, GREEN); // Right elbow
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw left hand
 	glPushMatrix();
-	glTranslatef(-0.45, 0.0, -0.12);
+	glTranslatef(-0.4, 0.2, 0.00);
 	glRotatef((GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.27, GREEN); // Left shoulder
+	cylinder(0.05, 0.4, GREEN); // Left shoulder
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.27);
+	glTranslatef(0.0, -0.4, 0.0);
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.27, GREEN); // Left elbow
+	cylinder(0.05, 0.4, GREEN); // Left elbow
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw Left foot
 	glPushMatrix();
-	glTranslatef(-0.15, 0.0, -0.75);
+	glTranslatef(-0.2, -0.6, 0.0);
 	glRotatef(-(GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.18, GREEN); // Left foot
+	cylinder(0.07, 0.35, GREEN); // Left foot
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.18);
+	glTranslatef(0.0, -0.35, 0.0);
 	glRotatef(-(GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.18, GREEN); // Left foot
+	cylinder(0.07, 0.35, GREEN); // Left foot
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
 
 	// Draw right foot
 	glPushMatrix();
-	glTranslatef(0.15, 0.0, -0.75);
+	glTranslatef(0.2, -0.6, 0.0);
 	glRotatef((GLfloat)shoulder, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.18, GREEN); // Right foot
+	cylinder(0.07, 0.35, GREEN); // Right foot
 	// Elbow start
 	glPushMatrix();
-	glTranslatef(0.0, 0.0, -0.18);
+	glTranslatef(0.0, -0.35, 0.0);
 	glRotatef((GLfloat)elbow, 1.0, 0.0, 0.0);
-	cylinder(0.054, 0.18, GREEN); // Right foot
+	cylinder(0.07, 0.35, GREEN); // Right foot
 	glPopMatrix();
 	// Elbow end
 	glPopMatrix();
@@ -95,27 +88,63 @@ void robot() {
 
 void display() {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_PROJECTION);
+	glShadeModel(flat_smooth);
+	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
+	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+
 	glLoadIdentity();
-	// gluPerspective(100.0, (GLfloat)500 / (GLfloat)500, 0.0, 20.0);
-	glFrustum(-1, 1, -1, 1, 0, 20);
-	// glOrtho(-1, 1, -1, 1, 0, 20);
-	glViewport(100, 50, 400, 400);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	gluLookAt(cos(spin * M_PI / 360 * 2) * 0.5, y_axis, sin(spin * M_PI / 360 * 2) * 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+
+	glRotatef(rotate_x, 1.0, 0.0, 0.0);
+	glRotatef(rotate_y, 0.0, 1.0, 0.0);
+
 	robot();
+	// cylinder(0.3, 0.6, GREEN);
+	glFlush();
 	glutSwapBuffers();
 }
 
-void reshape(int w, int h) {
-	glViewport(0, 0, (GLsizei)w, (GLsizei)h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(65.0, (GLfloat)w / (GLfloat)h, 1.0, 20.0);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
-	glTranslatef(0.0, 0.0, -5.0);
+void keyboard(unsigned char key, int x, int y)
+{
+	switch (key) {
+	case 'f':
+		flat_smooth = GL_FLAT;
+		glutPostRedisplay();
+		break;
+	case 's':
+		flat_smooth = GL_SMOOTH;
+		glutPostRedisplay();
+		break;
+	case 'd':
+		light_position[0] += 0;
+		glutPostRedisplay();
+		break;
+	case 'a':
+		light_position[0] -= 0.1;
+		glutPostRedisplay();
+		break;
+	case 'w':
+		light_position[1] += 0.1;
+		glutPostRedisplay();
+		break;
+	case 'x':
+		light_position[1] -= 0.1;
+		glutPostRedisplay();
+		break;
+	case 'z':
+		light_position[2] += 0.1;
+		glutPostRedisplay();
+		break;
+	case 'c':
+		light_position[2] -= 0.1;
+		glutPostRedisplay();
+		break;
+	default:
+		break;
+	}
 }
 
 void specialKeys(int key, int x, int y) {
@@ -130,7 +159,7 @@ void specialKeys(int key, int x, int y) {
 
 	else if (key == GLUT_KEY_DOWN)
 		rotate_x -= 5;
-
+	
 	// Request display update
 	glutPostRedisplay();
 }
@@ -155,27 +184,33 @@ void tick(int value) {
 	default:
 		break;
 	}
-	spin += 10;
-	if (spin > 360)
-		spin %= 360;
-	if (y_axis > -0.5)
-		y_axis -= 0.01;
-	else
-		y_axis = 0.5;
 	glutTimerFunc(40.0, tick, 0);
 	glutPostRedisplay();
 }
 
+void init(void)
+{
+
+	glClearColor(0.0, 0.0, 0.0, 0.0);
+
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_NORMALIZE);
+}
+
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH);
 	glutInitWindowSize(500, 500);
 	glutInitWindowPosition(100, 100);
 	glutCreateWindow(argv[0]);
+	glEnable(GL_DEPTH_TEST);
+	init();
 	glutDisplayFunc(display);
-	glutReshapeFunc(reshape);
-	glutTimerFunc(40.0, tick, 0);
-//	glutSpecialFunc(specialKeys);
+	glutKeyboardFunc(keyboard);
+	// glutTimerFunc(40.0, tick, 0);
+	glutSpecialFunc(specialKeys);
 	glutMainLoop();
 	return 0;
 }

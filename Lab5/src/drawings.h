@@ -1,6 +1,8 @@
 #ifndef CG_DRAWINGS_H
 #define CG_DRAWINGS_H
 #define _USE_MATH_DEFINES
+#define RINGS 20
+#define SECTORS 20
 
 #ifdef __APPLE__
 #include <GLUT/glut.h>
