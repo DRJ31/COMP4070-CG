@@ -1,5 +1,7 @@
 #include "drawings.h"
 
+const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
+
 void sphere(double radius, const GLfloat *color)
 {
 	float const R = 1. / (float)(RINGS - 1);
@@ -51,7 +53,7 @@ void sphere(double radius, const GLfloat *color)
 		float norm[3] = { v[index[4 * i + 0]][0], v[index[4 * i + 0]][1],v[index[4 * i + 0]][2] };*/
 
 		glBegin(GL_POLYGON);
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3fv(GREEN);
 		glNormal3f(v[index[4 * i + 0]][0], v[index[4 * i + 0]][1], v[index[4 * i + 0]][2]);
 		glVertex3fv(v[index[4 * i + 0]]);
 		glNormal3f(v[index[4 * i + 1]][0], v[index[4 * i + 1]][1], v[index[4 * i + 1]][2]);

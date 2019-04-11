@@ -1,5 +1,7 @@
 #include "drawings.h"
 
+const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
+
 void cylinder(double radius, double height, const GLfloat *color)
 {
 
@@ -56,7 +58,7 @@ void cylinder(double radius, double height, const GLfloat *color)
 	for (int i = 0; i < SECTORS*(RINGS - 1) - 1; i++)
 	{
 		glBegin(GL_POLYGON);
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3fv(GREEN);
 		glNormal3f(v[index[4 * i + 0]][0], v[index[4 * i + 0]][1], v[index[4 * i + 0]][2]);
 
 		glVertex3fv(v[index[4 * i + 0]]);
@@ -116,7 +118,7 @@ void cylinder(double radius, double height, const GLfloat *color)
 	for (int i = 0; i < SECTORS*(2 - 1) - 1; i++)
 	{
 		glBegin(GL_POLYGON);
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3fv(GREEN);
 		glNormal3f(v[index[4 * i + 0]][0], v[index[4 * i + 0]][1], v[index[4 * i + 0]][2]);
 		
 		glVertex3fv(v[idx_low[4 * i + 0]]);
@@ -177,7 +179,7 @@ void cylinder(double radius, double height, const GLfloat *color)
 	for (int i = 0; i < SECTORS*(2 - 1) - 1; i++)
 	{
 		glBegin(GL_POLYGON);
-		glColor3f(1.0, 0.0, 0.0);
+		glColor3fv(GREEN);
 		glVertex3fv(v[idx_low[4 * i + 0]]);
 		glVertex3fv(v[idx_low[4 * i + 1]]);
 		glVertex3fv(v[idx_low[4 * i + 2]]);

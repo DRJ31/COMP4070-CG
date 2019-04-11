@@ -1,22 +1,27 @@
 #include "drawings.h"
 
-static int shoulder = 0, elbow = 0, status = 0, rotate_x = 0, rotate_y = 0;
+const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
+
+
+static int shoulder = 0, elbow = 0, angle0 = 0, angle1 = 0, rotate_x = 0, rotate_y = 0;
 static GLfloat mat_specular[] = { 1.0,1.0,1.0,1.0 };
 static GLfloat mat_shininess[] = { 50.0 };
-static GLfloat light_position[] = { 1.0,1.0,1.0,0.0 };
-static GLfloat white_light[] = { 1.0,0.0,1.0,1.0 };
+static GLfloat exponent[] = { 0.0 };
+static GLfloat light_position0[] = { 1.0,1.0,1.0,0.0 };
+static GLfloat light_position1[] = { 1.0,1.0,1.0,1.0 };
+static GLfloat spot_direction[] = {-1.0, 0.0, 0.0};
+static GLfloat red_light[] = { 1.0,0.0,0.0,1.0 };
+static GLfloat blue_light[] = {0.0, 0.0, 1.0, 1.0};
 static GLfloat lmodel_ambient[] = { 0.1,0.1,0.1,1.0 };
 static GLint flat_smooth = GL_SMOOTH;
-const GLfloat GREEN[] = { 0.0, 1.0, 0.0 };
 
 void robot() {
 	glPushMatrix();
-	// glRotatef(rotate_x, 1.0, 0.0, 0.0);
-	// glRotatef(rotate_y, 0.0, 1.0, 0.0);
+	glRotatef(rotate_x, 1.0, 0.0, 0.0);
+	glRotatef(rotate_y, 0.0, 1.0, 0.0);
 	
 	// Draw head
 	glPushMatrix();
-	// glRotatef(-180.0, 1.0, 0.0, 0.0);
 	glTranslatef(0.0, 0.8, 0.0);
 	sphere(0.2, GREEN); // HEAD
 	glPopMatrix();
@@ -91,10 +96,18 @@ void display() {
 	glShadeModel(flat_smooth);
 	glMaterialfv(GL_FRONT, GL_SPECULAR, mat_specular);
 	glMaterialfv(GL_FRONT, GL_SHININESS, mat_shininess);
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, white_light);
-	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, lmodel_ambient);
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position0);
+	glLightfv(GL_LIGHT1, GL_POSITION, light_position1);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, blue_light);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, blue_light);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, blue_light);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, red_light);
+	glLightfv(GL_LIGHT1, GL_AMBIENT, red_light);
+	glLightfv(GL_LIGHT1, GL_SPECULAR, red_light);
+	glLightf(GL_LIGHT1, GL_SPOT_CUTOFF, 15.0);
+	glLightf(GL_LIGHT1, GL_SPOT_EXPONENT, 2.0);
+	glLightfv(GL_LIGHT1, GL_SPOT_DIRECTION, spot_direction);
+
 
 	glLoadIdentity();
 
@@ -118,29 +131,13 @@ void keyboard(unsigned char key, int x, int y)
 		flat_smooth = GL_SMOOTH;
 		glutPostRedisplay();
 		break;
-	case 'd':
-		light_position[0] += 0;
-		glutPostRedisplay();
+	case '1':
+		glEnable(GL_LIGHT0);
+		// glEnable(GL_LIGHT1);
 		break;
-	case 'a':
-		light_position[0] -= 0.1;
-		glutPostRedisplay();
-		break;
-	case 'w':
-		light_position[1] += 0.1;
-		glutPostRedisplay();
-		break;
-	case 'x':
-		light_position[1] -= 0.1;
-		glutPostRedisplay();
-		break;
-	case 'z':
-		light_position[2] += 0.1;
-		glutPostRedisplay();
-		break;
-	case 'c':
-		light_position[2] -= 0.1;
-		glutPostRedisplay();
+	case '0':
+		glDisable(GL_LIGHT0);
+		// glDisable(GL_LIGHT1);
 		break;
 	default:
 		break;
@@ -165,26 +162,30 @@ void specialKeys(int key, int x, int y) {
 }
 
 void tick(int value) {
-	switch (status)
-	{
-	case 0:
-		shoulder += 4;
-		elbow += 4;
-		if (shoulder >= 40) {
-			status++;
-		}
-		break;
-	case 1:
-		shoulder -= 4;
-		elbow -= 4;
-		if (shoulder <= -40) {
-			status--;
-		}
-		break;
-	default:
-		break;
+	if (angle0 == 7200) {
+		light_position0[0] = 1;
+		light_position0[1] = 1;
+		light_position0[2] = 1;
+		angle0 = 0;
 	}
-	glutTimerFunc(40.0, tick, 0);
+	if (angle1 == 7200) {
+		light_position1[0] = 1;
+		light_position1[1] = 1;
+		light_position1[2] = 1;
+		angle1 = 0;
+	}
+	if (angle1 % 360 == 0)
+		light_position1[1] -= 0.1;
+	if (angle0 % 360 == 0) 
+		light_position0[1] -= 0.1;
+	light_position0[0] = sqrt(2) * cos(angle0 * M_PI / 360 + M_PI / 4);
+	light_position1[0] = sqrt(2) * cos(angle1 * M_PI / 360 + M_PI / 4);
+	light_position0[2] = sqrt(2) * sin(angle0 * M_PI / 360 + M_PI / 4);
+	light_position1[2] = sqrt(2) * sin(angle1 * M_PI / 360 + M_PI / 4);
+	printf("(%f %f %f) (%f %f %f)\n", light_position0[0], light_position0[1], light_position0[2], light_position1[0], light_position1[1], light_position1[2]);
+	angle0++;
+	angle1 += 2;
+	glutTimerFunc(1.0, tick, 0);
 	glutPostRedisplay();
 }
 
@@ -195,6 +196,7 @@ void init(void)
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHT1);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_NORMALIZE);
 }
@@ -209,7 +211,7 @@ int main(int argc, char **argv) {
 	init();
 	glutDisplayFunc(display);
 	glutKeyboardFunc(keyboard);
-	// glutTimerFunc(40.0, tick, 0);
+	glutTimerFunc(40.0, tick, 0);
 	glutSpecialFunc(specialKeys);
 	glutMainLoop();
 	return 0;
